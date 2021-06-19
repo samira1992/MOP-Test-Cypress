@@ -1,40 +1,33 @@
+import { v4 as uuidv4 } from 'uuid';
+
+function randomNumber() {
+    return Math.floor(Math.random() * 10);
+}
+
+function randomPhone() {
+    return `+123${randomNumber()}${randomNumber()}${randomNumber()}${randomNumber()}`
+}
+
 describe('Change password',function(){
 
     it('Change password',function(){
         cy.visit('/')
-            cy.get('.css-o6pyxp').click()
+            cy.get('button').contains('Sign Up').click()
             cy.location('pathname').should('eq', '/signup')
 
             var Email=randomEmail();
             cy.get('[data-testid=email-signup]').type(Email)
            
             function randomEmail(){
-                var chars = 'abcdefghijklmnopqr';
-                var string = '';
-                for(var ii=0; ii<15; ii++)
-                    string += chars.charAt(Math.floor(Math.random() * chars.length));
-                
-                return(string + '@gmail.com');
-        }
+                return(uuidv4() + '@example.com');
+            }
 
             cy.get('[data-testid=name-signup]').type('Samira').should('have.value', 'Samira')
 
-            var randomPassword=Password();
-            cy.get('[data-testid=password-signup]').type(randomPassword)
+            cy.get('[data-testid=password-signup]').type('Test123!')
 
-            function Password(){
-                let text=''
-                let alphabet='Aa1!' 
-       
-                for(let i=0; i<12; i++)
-       
-                text+=alphabet.charAt(Math.floor(Math.random()*alphabet.length))
-       
-                return text;
-             }
-
-            cy.get('[data-testid=confirm-password-signup]').type(randomPassword)
-            cy.get('[data-testid=phone-number-signup]').type('+123')
+            cy.get('[data-testid=confirm-password-signup]').type('Test123!')
+            cy.get('[data-testid=phone-number-signup]').type(randomPhone())
             cy.get('.css-2vmmyj.e1n1lbzj0').click()
             cy.get('[data-testid=signup-button]').click({force:true})
 
@@ -45,24 +38,12 @@ describe('Change password',function(){
 
             cy.get('.css-fi6pgk.easlfcj0').click()
             cy.get('[href="/settings/login-settings"] > .css-zhqoyt > .css-1tj4ne8').click()
-            cy.get('[data-testid=password-change]').type(randomPassword)
+            cy.get('[data-testid=password-change]').type('Test123!')
             
-            var newPassword =changePassword();
-            cy.get('[data-testid=new-password-change]').type(newPassword)
-
-            function changePassword(){
-                let text=''
-                let alphabet='Aa1!' 
-       
-                for(let i=0; i<12; i++)
-       
-                text+=alphabet.charAt(Math.floor(Math.random()*alphabet.length))
-       
-                return text;
-             }
+            cy.get('[data-testid=new-password-change]').type('Test123!Changed')
             
         
-           cy.get('[data-testid=confirm-password-change]').type(newPassword)
+           cy.get('[data-testid=confirm-password-change]').type('Test123!Changed')
            cy.get('[data-testid=change-password-button]').click()
            cy.get('.css-5ipae5 > .toastify-container').should('contain', 'Password changed successfully')
 
@@ -72,10 +53,10 @@ describe('Change password',function(){
 
     it('Change password with incorrect current password',function(){
         cy.visit('/')
-         cy.get('.e1jqfdaz0.css-66x756.e1n1lbzj0').click()
+        cy.get('button').contains('Log in').click()
         cy.location('pathname').should('eq', '/login')
-        cy.get('#email').type('samirak@gmail.com').should('have.value', 'samirak@gmail.com')
-        cy.get('#password').type('Test123!').should('have.value','Test123!')
+        cy.get('[data-testid=email-login]').type('samirak@gmail.com').should('have.value', 'samirak@gmail.com')
+        cy.get('[data-testid=password-login]').type('Test123!').should('have.value','Test123!')
         cy.get('[data-testid=login-button]').click()
         cy.location('pathname').should('eq','/login')
         cy.wait(5000)
@@ -95,10 +76,10 @@ describe('Change password',function(){
 
      it('Change password with incorrect confirmed password',function(){
          cy.visit('/')
-         cy.get('.e1jqfdaz0.css-66x756.e1n1lbzj0').click()
+         cy.get('button').contains('Log in').click()
         cy.location('pathname').should('eq', '/login')
-        cy.get('#email').type('samirak@gmail.com').should('have.value', 'samirak@gmail.com')
-        cy.get('#password').type('Test123!').should('have.value','Test123!')
+        cy.get('[data-testid=email-login]').type('samirak@gmail.com').should('have.value', 'samirak@gmail.com')
+        cy.get('[data-testid=password-login]').type('Test123!').should('have.value','Test123!')
         cy.get('[data-testid=login-button]').click()
         cy.location('pathname').should('eq','/events')
         cy.get('.css-fi6pgk.easlfcj0').click()
@@ -114,10 +95,10 @@ describe('Change password',function(){
 
      it('Clicking on “Cancel” button user will be navigated on settings page ',function(){
         cy.visit('/')
-        cy.get('.e1jqfdaz0.css-66x756.e1n1lbzj0').click()
+        cy.get('button').contains('Log in').click()
        cy.location('pathname').should('eq', '/login')
-       cy.get('#email').type('samirak@gmail.com').should('have.value', 'samirak@gmail.com')
-       cy.get('#password').type('Test123!').should('have.value','Test123!')
+       cy.get('[data-testid=email-login]').type('samirak@gmail.com').should('have.value', 'samirak@gmail.com')
+       cy.get('[data-testid=password-login]').type('Test123!').should('have.value','Test123!')
        cy.get('[data-testid=login-button]').click()
        cy.location('pathname').should('eq','/events')
        cy.get('.css-fi6pgk.easlfcj0').click()
@@ -134,10 +115,10 @@ describe('Change password',function(){
 
     it('Clicking on “Back” button user will be navigated on settings page ',function(){
         cy.visit('/')
-        cy.get('.e1jqfdaz0.css-66x756.e1n1lbzj0').click()
+        cy.get('button').contains('Log in').click()
        cy.location('pathname').should('eq', '/login')
-       cy.get('#email').type('samirak@gmail.com').should('have.value', 'samirak@gmail.com')
-       cy.get('#password').type('Test123!').should('have.value','Test123!')
+       cy.get('[data-testid=email-login]').type('samirak@gmail.com').should('have.value', 'samirak@gmail.com')
+       cy.get('[data-testid=password-login]').type('Test123!').should('have.value','Test123!')
        cy.get('[data-testid=login-button]').click()
        cy.location('pathname').should('eq','/events')
        cy.get('.css-fi6pgk.easlfcj0').click()
