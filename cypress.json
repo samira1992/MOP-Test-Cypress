@@ -1,0 +1,7 @@
+{    "baseUrl":"https://qa-task-web.ministryofprogramming.com",
+    "experimentalFetchPolyfill": true,
+    "chromeWebSecurity": false,
+    "waitForAnimations": false,
+  "animationDistanceThreshold": 50,
+  "video": false
+}

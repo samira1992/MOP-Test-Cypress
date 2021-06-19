@@ -1,0 +1,15 @@
+{
+  "name": "mop-task",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "cy:run": "cypress run --browser chrome",
+    "cy:run:headless": "cypress run --browser chrome --headless"
+  },
+  "author": "Samira",
+  "license": "ISC",
+  "devDependencies": {
+    "cypress": "6.8.0"
+  }
+}
