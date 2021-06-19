@@ -9,3 +9,11 @@
 
 To run in different environment override BASE_URL like this
 `CYPRESS_BASE_URL=http://localhost:8000 npm run  cy:run:headless`
+
+### Continuous integratio setup
+
+To run these tests in your deployment pipeline run following
+```
+    npm install
+    CYPRESS_BASE_URL={YOUR APP URL} npm run  cy:run:headless
+```
